@@ -1,4 +1,4 @@
-# carhire
+# Car Hiring Website
 
 ## Project setup
 ```
