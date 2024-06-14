@@ -8,19 +8,13 @@
           Australia
         </div>
       </div>
-      <div class="flex gap-10 items-center font-semibold">
+      <div class="flex gap-3 items-center font-semibold">
+        <router-link to="/home">HOME</router-link>
+        |
+        <router-link to="/about">ABOUT US</router-link>
         <div
-          class="cursor-pointer hover:text-red-500"
-          @click="navigateRouter('/home')">
-          Home
-        </div>
-        <div
-          class="cursor-pointer hover:text-red-500"
-          @click="navigateRouter('/about')">
-          About Us
-        </div>
-        <div
-          class="bg-black text-white p-4 rounded-md cursor-pointer hover:text-red-500">
+          class="bg-[#dc143c] text-white p-4 rounded-md cursor-pointer hover:bg-[#902c40]"
+        >
           Login / Sign up
         </div>
       </div>
