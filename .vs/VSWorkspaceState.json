@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\CarHire",
-    "\\CarHire\\bin",
-    "\\CarHire\\bin\\Debug",
-    "\\CarHire\\obj"
+    ""
   ],
-  "SelectedNode": "\\CarHire\\CarHire.csproj.user",
+  "SelectedNode": "\\CarHire.sln",
   "PreviewInSolutionExplorer": false
 }
