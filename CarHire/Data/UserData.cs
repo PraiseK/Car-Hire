@@ -22,6 +22,11 @@ namespace CarHire.Data
             return context.Users.Find(userId);
 
         }
+
+        public IEnumerable<Users> GetAllUserDetails()
+        {
+            return context.Users.ToList();
+        }
         public bool Login(string username, string password)
         {
             var user = context.Users.Where(x => x.UserName == username && x.Password == password).FirstOrDefault();
