@@ -5,12 +5,12 @@ namespace CarHire.Services
 {
     public class UserService
     {
-        private UsersData _user;
+        private UserData _user;
         public UserService() {
-            _user = new UsersData();
+            _user = new UserData();
         }
 
-        public int AddNewUser(UserService userModel)
+        public int AddNewUser(Users userModel)
         {
             try
             {
