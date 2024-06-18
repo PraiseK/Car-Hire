@@ -24,8 +24,12 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import { getAvailableVerhicles } from "../../api/verhicleApi";
+import { onMounted } from "vue";
 
 const router = useRouter();
+
+onMounted(() => console.log(getAvailableVerhicles()));
 
 const navigateRouter = (path) => {
   router.push(path);
