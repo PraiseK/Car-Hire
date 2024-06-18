@@ -1,6 +1,7 @@
 import { c } from "vite/dist/node/types.d-aGj9QkWt";
 
 interface Verhicle {
+  id: Number;
   name: String;
   make: String;
   model: String;
@@ -24,6 +25,7 @@ enum CarType {
 export const getAvailableVerhicles = () => {
   const verhicles: Verhicle[] = [
     {
+      id: 0,
       name: "Toyota Corolla",
       make: "Toyota",
       model: "Corolla",
@@ -41,6 +43,7 @@ export const getAvailableVerhicles = () => {
         "https://static.europcar.com/carvisuals/450x300/57707_GWY_R.png?app=1.0.0",
     },
     {
+      id: 1,
       name: "Nissan Juke",
       make: "Nissan",
       model: "Juke",
@@ -55,9 +58,10 @@ export const getAvailableVerhicles = () => {
       location: "Brisbane",
       price: 75.15,
       imgDir:
-        "https://static.europcar.com/carvisuals/450x300/57707_GWY_R.png?app=1.0.0",
+        "https://static.europcar.com/carvisuals/450x300/48057_GWY_R.png?app=1.0.0",
     },
     {
+      id: 2,
       name: "FORD RANGER WILDTRAK",
       make: "FORD",
       model: "RANGER WILDTRAK",
