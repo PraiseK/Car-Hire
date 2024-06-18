@@ -17,6 +17,8 @@
               id="pickup-location"
               class="border-b w-56 mx-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
+              :value="search"
+              @change="onSearch($event)"
             />
             <label
               for="pickup-location"
@@ -56,6 +58,7 @@
         </div>
         <button
           class="bg-[#dc143c] text-white px-10 py-2 rounded-md cursor-pointer mt-3 hover:bg-[#902c40]"
+          @click="searchCars(search)"
         >
           Search
         </button>
@@ -173,6 +176,18 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+const router = useRouter();
+const search = ref("");
+const searchCars = (search) => {
+  router.push(`/available-car?search=${search}`);
+};
+
+const onSearch = (event) => {
+  search.value = event.target.value;
+};
+</script>
 
 <style scoped></style>
