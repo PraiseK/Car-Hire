@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const path = {
   ROOT: "/home",
   ABOUT: "/about",
+  AVAILABLECAR: "/available-car",
 };
 
 const routes = [
@@ -22,6 +23,11 @@ const routes = [
       {
         path: path.ABOUT,
         component: () => import("../components/AboutPage/AboutPage.vue"),
+      },
+      {
+        path: path.AVAILABLECAR,
+        component: () =>
+          import("../components/AvailableCarPage/AvailableCarPage.vue"),
       },
     ],
   },
