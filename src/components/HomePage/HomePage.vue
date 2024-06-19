@@ -4,10 +4,10 @@
       <img class="opacity-60" src="../../assets/images/banner.png" />
       <div class="absolute top-[7%] left-[17%]">
         <p class="text-6xl uppercase mb-4 font-[1000] tracking-wider w-[30rem]">
-          Rent a car with Sikute Australia
+          Rent a car with Sikuta Australia
         </p>
         <p class="text-2xl w-[35rem] mb-5">
-          Increase efficiency and improve your customer experience with Skikute
+          Increase efficiency and improve your customer experience with Skikuta
           Australia.
         </p>
         <div class="flex bg-white h-[70px] rounded-md">
