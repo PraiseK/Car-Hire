@@ -4,6 +4,7 @@ const path = {
   ROOT: "/home",
   ABOUT: "/about",
   AVAILABLECAR: "/available-car",
+  MANAGEBOOKING: "/manage-booking",
 };
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
         path: path.AVAILABLECAR,
         component: () =>
           import("../components/AvailableCarPage/AvailableCarPage.vue"),
+      },
+      {
+        path: path.MANAGEBOOKING,
+        component: () =>
+          import("../components/ManageBooking/ManageBooking.vue"),
       },
     ],
   },
