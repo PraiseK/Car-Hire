@@ -3,7 +3,7 @@
     class="sticky inset-0 z-50 border-b border-slate-100 bg-gray-200 backdrop-blur-lg"
   >
     <nav
-      class="mx-auto flex max-w-6xl gap-4 transition-all duration-200 ease-in-out lg:px-12"
+      class="mx-auto flex max-w-7xl gap-4 transition-all duration-200 ease-in-out lg:px-12"
     >
       <div class="relative flex items-center">
         <a href="/">
