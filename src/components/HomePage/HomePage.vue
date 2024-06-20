@@ -1,28 +1,37 @@
 <template>
   <div class="relative">
-    <section>
-      <img class="opacity-60" src="../../assets/images/banner.png" />
-      <div class="absolute top-[7%] left-[17%]">
-        <p class="text-6xl uppercase mb-4 font-[1000] tracking-wider w-[30rem]">
-          Rent a car with Sikuta Australia
+    <section class="relative h-[85vh]">
+      <img
+        src="../../assets/images/banner.png"
+        class="max-md:hidden object-cover w-full h-full opacity-60"
+      />
+      <div class="absolute sm:top-1/4 top-[10%] left-1/3 -translate-x-1/3">
+        <p
+          class="text-2xl text-balance text-left sm:text-3xl uppercase mb-4 font-[1000] w-full sm:w-[30rem]"
+        >
+          Rent a car with Sikute Australia
         </p>
-        <p class="text-2xl w-[35rem] mb-5">
-          Increase efficiency and improve your customer experience with Skikuta
+        <p
+          class="text-xl text-pretty text-left sm:text-2xl w-full sm:w-[35rem] mb-5"
+        >
+          Increase efficiency and improve your customer experience with Skikute
           Australia.
         </p>
-        <div class="flex bg-white h-[70px] rounded-md">
+        <div
+          class="flex flex-col sm:flex-row bg-white h-auto sm:h-[70px] px-5 rounded-md"
+        >
           <div class="relative">
             <input
               type="text"
               id="pickup-location"
-              class="border-b w-56 mx-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
+              class="border-b w-full sm:w-56 mr-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
               :value="search"
               @change="onSearch($event)"
             />
             <label
               for="pickup-location"
-              class="absolute left-0 mx-5 top-5 text-gray-600 cursor-text peer-focus:text-xs peer-focus:-top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              class="absolute left-0 top-5 text-gray-600 cursor-text peer-focus:text-xs peer-focus:-top-[-0.5rem] peer-focus:text-gray-700 transition-all"
               >Pick-up Location</label
             >
           </div>
@@ -30,12 +39,12 @@
             <input
               type="date"
               id="fromdate"
-              class="border-b w-56 mx-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
+              class="border-b w-full sm:w-56 left-0 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
             />
             <label
               for="fromdate"
-              class="absolute left-0 mx-5 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              class="absolute left-0 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
             >
               From</label
             >
@@ -45,12 +54,12 @@
             <input
               type="date"
               id="todate"
-              class="border-b w-56 mx-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
+              class="border-b w-full sm:w-56 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
             />
             <label
               for="todate"
-              class="absolute left-0 mx-5 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              class="absolute left-0 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
             >
               To</label
             >

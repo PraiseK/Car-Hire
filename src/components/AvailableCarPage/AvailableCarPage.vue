@@ -32,7 +32,7 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="ecw-icon__svg"
+                      class="ecw-icon__svg mr-2"
                       style="
                         fill: rgb(191, 191, 191);
                         transform: rotate(0deg);
@@ -61,7 +61,7 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="ecw-icon__svg"
+                      class="ecw-icon__svg mr-2"
                       style="
                         fill: rgb(191, 191, 191);
                         transform: rotate(0deg);
@@ -92,7 +92,7 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="ecw-icon__svg"
+                      class="ecw-icon__svg mr-2"
                       style="
                         fill: rgb(191, 191, 191);
                         transform: rotate(0deg);
@@ -126,7 +126,7 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="ecw-icon__svg"
+                      class="ecw-icon__svg mr-2"
                       style="
                         fill: rgb(191, 191, 191);
                         transform: rotate(0deg);
@@ -159,7 +159,7 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="ecw-icon__svg"
+                      class="ecw-icon__svg mr-2"
                       style="
                         fill: rgb(191, 191, 191);
                         transform: rotate(0deg);
@@ -193,7 +193,7 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="ecw-icon__svg"
+                      class="ecw-icon__svg mr-2"
                       style="
                         fill: rgb(191, 191, 191);
                         transform: rotate(0deg);
@@ -222,7 +222,7 @@
               </div>
               <div class="md:flex font-bold text-gray-800">
                 <div class="w-full md:w-1/2 flex space-x-3">
-                  <div class="w-1/2">
+                  <div class="flex flex-col max-sm:items-center w-full">
                     <div class="flex">
                       <svg
                         width="24"
@@ -230,7 +230,7 @@
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink"
-                        class="ecw-icon__svg"
+                        class="ecw-icon__svg mr-2"
                         style="
                           fill: rgb(0, 153, 0);
                           transform: rotate(0deg);
@@ -260,7 +260,7 @@
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink"
-                        class="ecw-icon__svg"
+                        class="ecw-icon__svg mr-2"
                         style="
                           fill: rgb(0, 153, 0);
                           transform: rotate(0deg);
@@ -289,15 +289,17 @@
             </div>
             <div class="flex justify-end">
               <div>
-                <p class="text-end">From</p>
+                <p class="text-end max-sm:text-center">From</p>
                 <p class="text-white-500 text-4xl mb-6">
                   ${{ verhicle.price }}/ day
                 </p>
-                <button
-                  class="p-4 px-9 bg-red-400 rounded-md text-white text-xl hover:bg-red-700 float-end"
-                >
-                  Select
-                </button>
+                <div class="flex max-sm:justify-center justify-end">
+                  <button
+                    class="p-4 px-9 bg-red-400 rounded-md text-white text-xl hover:bg-red-700"
+                  >
+                    Select
+                  </button>
+                </div>
               </div>
             </div>
           </div>
