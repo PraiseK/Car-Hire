@@ -32,10 +32,16 @@
         >
           <router-link to="/about">ABOUT US</router-link>
         </li>
+
+        <li
+          class="font-dm text-sm font-medium text-slate-700 ease-in-out hover:scale-[1.03]"
+        >
+          <router-link to="/manage-booking">MANAGE BOOKING</router-link>
+        </li>
       </ul>
       <div class="hidden items-center justify-center gap-6 lg:pr-12 md:flex">
         <a
-          href="#"
+          href="/login"
           class="rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
           >Sign up
         </a>

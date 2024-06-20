@@ -5,6 +5,8 @@ const path = {
   ABOUT: "/about",
   AVAILABLECAR: "/available-car",
   CART: "/cart",
+  MANAGEBOOKING: "/manage-booking",
+  LOGIN: "/login",
 };
 
 const routes = [
@@ -33,6 +35,15 @@ const routes = [
       {
         path: path.CART,
         component: () => import("../components/CartPage/CartPage.vue"),
+      },
+      {
+        path: path.LOGIN,
+        component: () => import("../components/LoginPage/LoginPage.vue"),
+      },
+      {
+        path: path.MANAGEBOOKING,
+        component: () =>
+          import("../components/ManageBooking/ManageBooking.vue"),
       },
     ],
   },
