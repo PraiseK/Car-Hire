@@ -330,13 +330,17 @@
           <label class="font-bold text-sm">Pick up</label>
 
           <p class="font-bold text-lg">{{ verhicleSelected.location }}</p>
-          <label class="text-sm text-[#8b7e7e]">21-06-2024</label>
+          <label class="text-sm text-[#8b7e7e]">{{
+            hiringObject.fromDate
+          }}</label>
         </div>
         <div class="bg-[#f7f7f7] p-4 rounded-b-md">
           <label class="font-bold text-sm">Pick up</label>
 
           <p class="font-bold text-lg">{{ verhicleSelected.location }}</p>
-          <label class="text-sm text-[#8b7e7e]">21-06-2024</label>
+          <label class="text-sm text-[#8b7e7e]">{{
+            hiringObject.toDate
+          }}</label>
         </div>
         <!--End Pickup Satus-->
 

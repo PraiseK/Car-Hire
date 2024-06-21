@@ -17,56 +17,59 @@
           Increase efficiency and improve your customer experience with Skikuta
           Australia.
         </p>
-        <div
-          class="flex flex-col sm:flex-row bg-white h-auto sm:h-[70px] px-5 rounded-md"
-        >
-          <div class="relative">
-            <input
-              type="text"
-              id="pickup-location"
-              class="border-b w-full sm:w-56 mr-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
-              autocomplete="off"
-              :value="search"
-              @change="onSearch($event)"
-            />
-            <label
-              for="pickup-location"
-              class="absolute left-0 top-5 text-gray-600 cursor-text peer-focus:text-xs peer-focus:-top-[-0.5rem] peer-focus:text-gray-700 transition-all"
-              >Pick-up Location</label
-            >
-          </div>
-          <div class="relative">
-            <input
-              type="date"
-              id="fromdate"
-              class="border-b w-full sm:w-56 left-0 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
-              autocomplete="off"
-              v-model="fromDate"
-            />
-            <label
-              for="fromdate"
-              class="absolute left-0 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
-            >
-              From</label
-            >
-          </div>
+        <div class="bg-white rounded-md">
+          <div class="flex flex-col sm:flex-row h-auto sm:h-[70px] px-5">
+            <div class="relative">
+              <input
+                type="text"
+                id="pickup-location"
+                class="border-b w-full sm:w-56 mr-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
+                autocomplete="off"
+                v-model="search"
+              />
+              <label
+                for="pickup-location"
+                class="absolute left-0 text-gray-600 cursor-text peer-focus:text-xs peer-focus:-top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+                :class="search ? 'text-xs -top-[-0.5rem]' : 'top-5'"
+                >Pick-up Location</label
+              >
+            </div>
+            <div class="relative">
+              <input
+                type="date"
+                id="fromdate"
+                class="border-b w-full sm:w-56 left-0 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
+                autocomplete="off"
+                v-model="fromDate"
+              />
+              <label
+                for="fromdate"
+                class="absolute left-0 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              >
+                From</label
+              >
+            </div>
 
-          <div class="relative">
-            <input
-              type="date"
-              id="todate"
-              class="border-b w-full sm:w-56 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
-              autocomplete="off"
-              required
-              v-model="toDate"
-            />
-            <label
-              for="todate"
-              class="absolute left-0 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
-            >
-              To</label
-            >
+            <div class="relative">
+              <input
+                type="date"
+                id="todate"
+                class="border-b w-full sm:w-56 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
+                autocomplete="off"
+                required
+                v-model="toDate"
+              />
+              <label
+                for="todate"
+                class="absolute left-0 text-gray-600 cursor-text text-xs -top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              >
+                To</label
+              >
+            </div>
           </div>
+          <p v-if="isError" class="text-red-700 pl-5 pb-2">
+            The fields can't be empty.
+          </p>
         </div>
         <button
           class="bg-[#dc143c] text-white px-10 py-2 rounded-md cursor-pointer mt-3 hover:bg-[#902c40]"
@@ -195,28 +198,34 @@ const router = useRouter();
 const search = ref("");
 const fromDate = ref("");
 const toDate = ref("");
+const isError = ref(false);
 const hiringObject = ref({});
+
+const formatDate = (date) => {
+  const dateRaw = new Date(Date.parse(date));
+
+  return `${dateRaw.getDate()}-${dateRaw.getMonth()}-${dateRaw.getFullYear()}`;
+};
 const searchCars = (search) => {
   try {
-    const data = (hiringObject.value = {
-      search: search,
-      hiringDuration: Math.round(
-        (Date.parse(toDate.value) - Date.parse(fromDate.value)) /
-          (1000 * 3600 * 24)
-      ),
-    });
-
-    if (isNaN(data.hiringDuration) !== true && data.search !== "") {
+    if (search.value !== "" && fromDate.value !== "" && toDate.value !== "") {
+      const data = (hiringObject.value = {
+        search: search,
+        fromDate: formatDate(fromDate.value),
+        toDate: formatDate(toDate.value),
+        hiringDuration: Math.round(
+          (Date.parse(toDate.value) - Date.parse(fromDate.value)) /
+            (1000 * 3600 * 24)
+        ),
+      });
       localStorage.setItem("hiringObject", JSON.stringify(data));
       router.push(`/available-car?search=${search}`);
+      isError.value = false;
     }
+    isError.value = true;
   } catch (e) {
     console.log(e);
   }
-};
-
-const onSearch = (event) => {
-  search.value = event.target.value;
 };
 </script>
 
