@@ -9,12 +9,12 @@
         <p
           class="text-2xl text-balance text-left sm:text-3xl uppercase mb-4 font-[1000] w-full sm:w-[30rem]"
         >
-          Rent a car with Sikute Australia
+          Rent a car with Sikuta Australia
         </p>
         <p
           class="text-xl text-pretty text-left sm:text-2xl w-full sm:w-[35rem] mb-5"
         >
-          Increase efficiency and improve your customer experience with Skikute
+          Increase efficiency and improve your customer experience with Skikuta
           Australia.
         </p>
         <div
