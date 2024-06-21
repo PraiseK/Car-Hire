@@ -31,7 +31,8 @@
             />
             <label
               for="pickup-location"
-              class="absolute left-0 top-5 text-gray-600 cursor-text peer-focus:text-xs peer-focus:-top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              class="absolute left-0 text-gray-600 cursor-text peer-focus:text-xs peer-focus:-top-[-0.5rem] peer-focus:text-gray-700 transition-all"
+              :class="search ? 'text-xs -top-[-0.5rem]' : 'top-5'"
               >Pick-up Location</label
             >
           </div>
@@ -196,10 +197,18 @@ const search = ref("");
 const fromDate = ref("");
 const toDate = ref("");
 const hiringObject = ref({});
+
+const formatDate = (date) => {
+  const dateRaw = new Date(Date.parse(date));
+
+  return `${dateRaw.getDate()}-${dateRaw.getMonth()}-${dateRaw.getFullYear()}`;
+};
 const searchCars = (search) => {
   try {
     const data = (hiringObject.value = {
       search: search,
+      fromDate: formatDate(fromDate.value),
+      toDate: formatDate(toDate.value),
       hiringDuration: Math.round(
         (Date.parse(toDate.value) - Date.parse(fromDate.value)) /
           (1000 * 3600 * 24)
