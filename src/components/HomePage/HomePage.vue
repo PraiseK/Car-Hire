@@ -41,6 +41,7 @@
               id="fromdate"
               class="border-b w-full sm:w-56 left-0 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
+              v-model="fromDate"
             />
             <label
               for="fromdate"
@@ -56,6 +57,8 @@
               id="todate"
               class="border-b w-full sm:w-56 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
+              required
+              v-model="toDate"
             />
             <label
               for="todate"
@@ -190,8 +193,26 @@ import { useRouter } from "vue-router";
 import { ref } from "vue";
 const router = useRouter();
 const search = ref("");
+const fromDate = ref("");
+const toDate = ref("");
+const hiringObject = ref({});
 const searchCars = (search) => {
-  router.push(`/available-car?search=${search}`);
+  try {
+    const data = (hiringObject.value = {
+      search: search,
+      hiringDuration: Math.round(
+        (Date.parse(toDate.value) - Date.parse(fromDate.value)) /
+          (1000 * 3600 * 24)
+      ),
+    });
+
+    if (isNaN(data.hiringDuration) !== true && data.search !== "") {
+      localStorage.setItem("hiringObject", JSON.stringify(data));
+      router.push(`/available-car?search=${search}`);
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const onSearch = (event) => {

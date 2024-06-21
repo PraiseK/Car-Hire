@@ -168,7 +168,7 @@
         <p class="text-2xl font-bold">Review</p>
         <div class="pt-6 flex justify-between border-b-2 pb-2">
           <p class="text-xl font-bold">Verhicle</p>
-          <p class="text-xl font-bold">A$1,652.16</p>
+          <p class="text-xl font-bold">{{ `$${verhicleSelected.price}` }}</p>
         </div>
 
         <!--- Verhicle Name-->
@@ -342,11 +342,22 @@
 
         <!--Total Status-->
 
-        <div
-          class="absolute flex justify-between w-[94%] pt-3 bottom-10 border-t-2"
-        >
-          <p class="font-bold text-2xl">Total</p>
-          <p class="font-bold text-2xl">A$2,411.60</p>
+        <div class="absolute flex flex-col w-[94%] pt-3 bottom-10 border-t-2">
+          <div class="flex justify-between pb-5">
+            <p class="font-[400] text-md">Hiring Duration</p>
+            <p>{{ hiringObject.hiringDuration }} Days</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p class="font-bold text-2xl">Total</p>
+            <p class="font-bold text-2xl">
+              {{
+                `$${(
+                  verhicleSelected.price * hiringObject.hiringDuration
+                ).toFixed(2)}`
+              }}
+            </p>
+          </div>
         </div>
 
         <!--End Total Status-->
@@ -359,11 +370,16 @@
 import { ref, onMounted } from "vue";
 
 const verhicleSelected = ref({});
+const hiringObject = ref({});
 
 onMounted(() => {
   const savedVehicle = JSON.parse(localStorage.getItem("selectedVerhicle"));
+  const savedHiring = JSON.parse(localStorage.getItem("hiringObject"));
   if (savedVehicle) {
     verhicleSelected.value = savedVehicle;
+  }
+  if (savedHiring) {
+    hiringObject.value = savedHiring;
   }
 });
 </script>
