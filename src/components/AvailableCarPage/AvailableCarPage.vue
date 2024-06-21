@@ -296,6 +296,7 @@
                 <div class="flex max-sm:justify-center justify-end">
                   <button
                     class="p-4 px-9 bg-red-400 rounded-md text-white text-xl hover:bg-red-700"
+                    @click="handleClick(verhicle)"
                   >
                     Select
                   </button>
@@ -538,8 +539,9 @@
 <script setup>
 import { getAvailableVerhicles } from "../../api/verhicleApi";
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
+const router = useRouter();
 
 const availableVerhicles = ref([]);
 onMounted(async () => {
@@ -549,6 +551,11 @@ onMounted(async () => {
       verhicle.location.toLowerCase() === route.query.search.toLowerCase()
   );
 });
+
+const handleClick = (verhicle) => {
+  localStorage.setItem("selectedVerhicle", JSON.stringify(verhicle));
+  router.push("/cart");
+};
 </script>
 
 <style lang="scss" scoped></style>

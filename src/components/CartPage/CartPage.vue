@@ -161,6 +161,7 @@
           </div>
         </form>
       </div>
+      <!--Cart Verhicle Review Section-->
       <div
         class="relative p-3 border-solid border-[#bfbfbf] border rounded-md h-[70vh]"
       >
@@ -173,12 +174,17 @@
         <!--- Verhicle Name-->
         <div class="flex gap-5 mt-3 font-bold">
           <img
-            src="https://static.europcar.com/carvisuals/450x300/29487_GWY_R.png?app=1.0.0"
+            :src="verhicleSelected.imgDir"
             alt="veh-review"
             width="100"
             height="70"
           />
-          <p class="mt-2">VOLKSWAGEN UP!</p>
+          <div>
+            <p class="mt-2">
+              {{ verhicleSelected.name }}
+            </p>
+            <label class="text-sm font-bold text-[#a1a0a0]">2018</label>
+          </div>
         </div>
         <!--- Verhicle Status -->
         <div class="flex gap-2 items-center mt-4">
@@ -207,7 +213,7 @@
               </defs>
               <use xlink:href="#pax_svg__a" fill-rule="evenodd"></use>
             </svg>
-            4
+            {{ verhicleSelected.seats }}
           </div>
           <div class="flex gap-1">
             <svg
@@ -234,7 +240,7 @@
               </defs>
               <use xlink:href="#doors_svg__a" fill-rule="evenodd"></use>
             </svg>
-            3
+            {{ verhicleSelected.doors }}
           </div>
           <div class="flex gap-1">
             <svg
@@ -261,7 +267,7 @@
               </defs>
               <use xlink:href="#luggage_svg__a" fill-rule="evenodd"></use>
             </svg>
-            1
+            {{ verhicleSelected.suitCases }}
           </div>
           <div class="flex gap-1">
             <svg
@@ -288,7 +294,7 @@
               </defs>
               <use xlink:href="#transmission_svg__a" fill-rule="evenodd"></use>
             </svg>
-            MANUAL
+            {{ verhicleSelected.carType }}
           </div>
           <div class="flex gap-1">
             <svg
@@ -315,7 +321,7 @@
               </defs>
               <use xlink:href="#minimum_age_svg__a" fill-rule="evenodd"></use>
             </svg>
-            18
+            {{ verhicleSelected.drivingAge }}
           </div>
         </div>
 
@@ -323,13 +329,13 @@
         <div class="bg-[#f7f7f7] p-4 rounded-t-md mt-5 border-b-2">
           <label class="font-bold text-sm">Pick up</label>
 
-          <p class="font-bold text-lg">Brisbane</p>
+          <p class="font-bold text-lg">{{ verhicleSelected.location }}</p>
           <label class="text-sm text-[#8b7e7e]">21-06-2024</label>
         </div>
         <div class="bg-[#f7f7f7] p-4 rounded-b-md">
           <label class="font-bold text-sm">Pick up</label>
 
-          <p class="font-bold text-lg">Brisbane</p>
+          <p class="font-bold text-lg">{{ verhicleSelected.location }}</p>
           <label class="text-sm text-[#8b7e7e]">21-06-2024</label>
         </div>
         <!--End Pickup Satus-->
@@ -349,6 +355,17 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+
+const verhicleSelected = ref({});
+
+onMounted(() => {
+  const savedVehicle = JSON.parse(localStorage.getItem("selectedVerhicle"));
+  if (savedVehicle) {
+    verhicleSelected.value = savedVehicle;
+  }
+});
+</script>
 
 <style lang="scss" scoped></style>
