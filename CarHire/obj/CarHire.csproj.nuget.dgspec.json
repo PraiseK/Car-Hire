@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Source\\Repos\\Car-Hire\\CarHire\\CarHire.csproj": {}
+    "C:\\Users\\Admin\\source\\repos\\Car-Hire\\CarHire\\CarHire.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Source\\Repos\\Car-Hire\\CarHire\\CarHire.csproj": {
+    "C:\\Users\\Admin\\source\\repos\\Car-Hire\\CarHire\\CarHire.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\Car-Hire\\CarHire\\CarHire.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\Car-Hire\\CarHire\\CarHire.csproj",
         "projectName": "CarHire",
-        "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Car-Hire\\CarHire\\CarHire.csproj",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\Car-Hire\\CarHire\\CarHire.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Source\\Repos\\Car-Hire\\CarHire\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\Car-Hire\\CarHire\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -83,6 +83,10 @@
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[7.6.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

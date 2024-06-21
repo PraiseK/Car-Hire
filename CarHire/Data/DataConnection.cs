@@ -10,7 +10,8 @@ namespace CarHire.Data
         // These variable to create new tables into DB
         public DbSet<Users> Users { get; set; } = null;
         public DbSet<Role> Role { get; set; } = null;
-
+        public DbSet<Vehicle> Vehicle { get; set; } = null;
+        public DbSet<CarType> CarType { get; set; } = null;
         // this is initialise DB connection
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
