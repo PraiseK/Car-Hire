@@ -26,8 +26,7 @@
               id="pickup-location"
               class="border-b w-full sm:w-56 mr-5 my-5 py-1 focus:outline-none focus:border-[#dc143c] focus:border-b-2 transition-colors peer"
               autocomplete="off"
-              :value="search"
-              @change="onSearch($event)"
+              v-model="search"
             />
             <label
               for="pickup-location"
@@ -222,10 +221,6 @@ const searchCars = (search) => {
   } catch (e) {
     console.log(e);
   }
-};
-
-const onSearch = (event) => {
-  search.value = event.target.value;
 };
 </script>
 
