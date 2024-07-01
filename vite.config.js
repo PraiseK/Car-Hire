@@ -3,6 +3,9 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-   base: './', // Add this line to ensure the paths are relative
-  plugins: [vue()],
+     plugins: [vue()],
+  base: './', // Ensure correct base path for relative imports
+  build: {
+    outDir: 'dist', // Output directory for the build files
+  },
 })
