@@ -19,6 +19,6 @@ namespace CarHire.Models
         public float price { get; set; }
         public bool isHybrid { get; set; }
 
-        public IEnumerable <CarType>? CarType { get; set; }
+        
     }
 }

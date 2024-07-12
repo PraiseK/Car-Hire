@@ -12,7 +12,7 @@ namespace CarHire.Models
         public string PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-         
 
+        public ICollection<Role>? Role { get; set; }
     }
 }

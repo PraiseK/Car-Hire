@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Newtonsoft.Json.Serialization;
 
 namespace CarHire
 {
@@ -16,6 +17,10 @@ namespace CarHire
         // this method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureService(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
             services.AddControllers();
 
             services.AddAuthentication(options =>
@@ -51,6 +56,10 @@ namespace CarHire
                         .AllowAnyMethod();
                     });
             });
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
+                                                                Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = 
+                                                                new DefaultContractResolver());
         }
 
         // This mehod gets called by the runtime. Use this method to configure the HTTP request pipeline
