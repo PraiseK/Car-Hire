@@ -18,15 +18,32 @@ namespace CarHire.Services
                 {
                     throw new Exception("User Details cannot be null!");
                 }
+                if (userModel.UserName == null)
+                {
+                    throw new Exception("Username cannot be null!");
+                }
+                if (userModel.Password == null)
+                {
+                    throw new Exception("Password cannot be null!");
+                }
+                if (userModel.PhoneNumber == null)
+                {
+                    throw new Exception("Phone Number cannot be null!");
+                }
+                if (userModel.FirstName == null)
+                {
+                    throw new Exception("Your First Name cannot be null!");
+                }
+                if (userModel.LastName == null)
+                {
+                    throw new Exception("Your Last Name cannot be null!");
+                }
                 if (userModel.Email == null)
                 {
                     throw new Exception("Email cannot be null!");
                 }
+
                 return _user.AddUser(userModel);
-
-               
-
-               
             }
             catch (Exception ex)
             {

@@ -13,6 +13,6 @@ namespace CarHire.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public ICollection<Role>? Role { get; set; }
+        public Role Role { get; set; }
     }
 }
