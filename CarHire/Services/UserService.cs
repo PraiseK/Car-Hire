@@ -23,6 +23,10 @@ namespace CarHire.Services
                     throw new Exception("Email cannot be null!");
                 }
                 return _user.AddUser(userModel);
+
+               
+
+               
             }
             catch (Exception ex)
             {
