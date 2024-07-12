@@ -6,5 +6,6 @@ namespace CarHire.Models
     {
         public int Id { get; set; }
         public string CarTypes { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }

@@ -7,5 +7,6 @@ namespace CarHire.Models
         public int Id { get; set; }
         public string RoleName { get; set; }
         public bool IsAdmin { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }

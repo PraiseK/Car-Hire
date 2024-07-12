@@ -294,3 +294,6 @@ C:\Users\Admin\source\repos\Car-Hire\CarHire\bin\Debug\net8.0\runtimes\win\lib\n
 C:\Users\Admin\source\repos\Car-Hire\CarHire\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\Admin\source\repos\Car-Hire\CarHire\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Admin\source\repos\Car-Hire\CarHire\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Users\Phuc Lan\Source\Repos\Car-Hire\CarHire\obj\Debug\net8.0\CarHire.dll
+C:\Users\Phuc Lan\Source\Repos\Car-Hire\CarHire\obj\Debug\net8.0\refint\CarHire.dll
+C:\Users\Phuc Lan\Source\Repos\Car-Hire\CarHire\obj\Debug\net8.0\CarHire.pdb
