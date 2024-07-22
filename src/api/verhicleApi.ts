@@ -1,5 +1,3 @@
-import { c } from "vite/dist/node/types.d-aGj9QkWt";
-
 interface Verhicle {
   id: Number;
   name: String;
