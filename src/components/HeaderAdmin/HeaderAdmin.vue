@@ -37,7 +37,6 @@ const navigateRouter = (pathName) => {
   router.push(pathName);
 };
 const activeNav = (pathName) => {
-  console.log(route.path);
   return route.path === pathName;
 };
 </script>

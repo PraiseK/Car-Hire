@@ -356,14 +356,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import { generateRandomCharacters } from "../../utils/help";
+import { LOCAL_DATA } from "../../utils/constants";
 
 const router = useRouter();
 const verhicleSelected = ref({});
 const hiringObject = ref({});
 const bookingObject = ref([]);
+const carList = ref([]);
 const bookingRef = ref();
 const customerInfo = reactive({
   firstName: "",
@@ -376,8 +378,9 @@ const customerInfo = reactive({
 onMounted(() => {
   const savedVehicle = JSON.parse(localStorage.getItem("selectedVerhicle"));
   const savedHiring = JSON.parse(localStorage.getItem("hiringObject"));
+  carList.value = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
   bookingObject.value = JSON.parse(
-    localStorage.getItem("bookingObject") || "[]"
+    localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]"
   );
   if (savedVehicle) {
     verhicleSelected.value = savedVehicle;
@@ -393,13 +396,27 @@ const onSubmit = () => {
     ...JSON.parse(JSON.stringify(customerInfo)),
     ...hiringObject.value,
     ...verhicleSelected.value,
-    status: "pending",
+    status: "PENDING",
     bookingRef: ref,
   };
   bookingRef.value = ref;
   localStorage.setItem(
-    "bookingObject",
+    LOCAL_DATA.BOOKING_LIST,
     JSON.stringify([...bookingObject.value, payload])
+  );
+  carList.value = carList.value.map((item) => {
+    if (+payload.id === +item.id) {
+      return {
+        ...item,
+        available: false,
+      };
+    } else {
+      return item;
+    }
+  });
+  localStorage.setItem(
+    LOCAL_DATA.LIST_CAR,
+    JSON.stringify(toRaw(carList.value))
   );
   localStorage.removeItem("selectedVerhicle");
   localStorage.removeItem("hiringObject");

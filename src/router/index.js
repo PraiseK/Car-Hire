@@ -12,6 +12,7 @@ export const PATH = {
   LOGIN: "/login",
   DASH_BOARD: PREFIX_PATH_ADMIN + "/dashboard",
   BOOKING_ADMIN: PREFIX_PATH_ADMIN + "/booking",
+  DETAIL_BOOKING: PREFIX_PATH_ADMIN + "/booking/:id",
   CAR_ADMIN: PREFIX_PATH_ADMIN + "/car",
 };
 
@@ -74,6 +75,11 @@ const routes = [
       {
         path: PATH.CAR_ADMIN,
         component: () => import("../components/CarAdmin/CarAdmin.vue"),
+      },
+      {
+        path: PATH.DETAIL_BOOKING,
+        component: () =>
+          import("../components/DetailBooking/DetailBooking.vue"),
       },
     ],
   },
