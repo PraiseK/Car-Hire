@@ -475,15 +475,17 @@
 import { getAvailableVerhicles } from "../../api/verhicleApi";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { LOCAL_DATA } from "../../utils/constants";
 const route = useRoute();
 const router = useRouter();
 
 const availableVerhicles = ref([]);
 onMounted(() => {
-  const data = getAvailableVerhicles();
+  const data = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
   availableVerhicles.value = data.filter(
     (verhicle) =>
-      verhicle.location.toLowerCase() === route.query.search.toLowerCase()
+      verhicle.location.toLowerCase() === route.query.search.toLowerCase() &&
+      verhicle.available
   );
 });
 

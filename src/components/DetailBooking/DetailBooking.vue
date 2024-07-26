@@ -51,16 +51,19 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const detailBooking = ref({});
-const listBooking = ref({});
+const detailBackUp = ref();
+const listBooking = ref([]);
 const cars = ref([]);
 onMounted(() => {
   cars.value = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
   listBooking.value = JSON.parse(
     localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]"
   );
-  detailBooking.value = listBooking.value.find(
+  const details = listBooking.value.find(
     (item) => item.bookingRef === route.path.split("/")?.[3]
   );
+  detailBooking.value = details;
+  detailBackUp.value = details.id;
 });
 
 const onChange = (e) => {
@@ -78,6 +81,19 @@ const onSubmit = () => {
       return item;
     }
   });
+
+  if (detailBooking.value.id !== detailBackUp.value) {
+    const newListCar = cars.value.map((item) => {
+      if (item.id === detailBackUp.value) return { ...item, available: true };
+      else if (item.id === detailBooking.value.id)
+        return { ...item, available: false };
+      else return item;
+    });
+    localStorage.setItem(
+      LOCAL_DATA.LIST_CAR,
+      JSON.stringify(toRaw(newListCar))
+    );
+  }
   localStorage.setItem(LOCAL_DATA.BOOKING_LIST, JSON.stringify(toRaw(result)));
   router.push("/admin/booking");
 };

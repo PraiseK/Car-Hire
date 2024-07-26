@@ -9,3 +9,13 @@ export const STATUS_BOOKING = [
   "COMPLETED",
   "CANCELED",
 ];
+export const CAR_TYPE = [
+  {
+    value: "AUTOMATIC",
+    label: "AUTOMATIC",
+  },
+  {
+    value: "MANUAL",
+    label: "MANUAL",
+  },
+];
