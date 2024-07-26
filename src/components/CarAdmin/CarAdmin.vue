@@ -1,29 +1,34 @@
 <template>
   <button
     @click="isCreate = true"
-    class="bg-[#DC143C] text-white p-3 font-semibold capitalize rounded cursor-pointer">
+    class="bg-[#DC143C] text-white p-3 font-semibold capitalize rounded cursor-pointer"
+  >
     Create new verhicel
   </button>
   <div
     v-if="isCreate"
-    class="p-3 my-4 border border-gray-300 border-solid rounded">
+    class="p-3 my-4 border border-gray-300 border-solid rounded"
+  >
     <div class="flex flex-wrap items-end gap-3">
       <div v-for="item of inputModel">
         <label
           v-if="item.type === 'select' || item.type === 'input'"
           for="name"
-          class="block mb-2 text-sm font-medium text-gray-900">
+          class="block mb-2 text-sm font-medium text-gray-900"
+        >
           {{ item.label }}
         </label>
         <input
           v-if="item.type === 'input'"
           v-model="form[item.prop]"
           :id="item.prop"
-          class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72" />
+          class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72"
+        />
         <select
           v-if="item.type === 'select'"
           v-model="form[item.prop]"
-          class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72">
+          class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72"
+        >
           <option v-for="v of CAR_TYPE" :value="v.value">{{ v.label }}</option>
         </select>
         <div class="flex items-center mb-4" v-if="item.type === 'checkbox'">
@@ -32,7 +37,8 @@
             id="checkbox"
             type="checkbox"
             value=""
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+          />
           <label
             for="checkbox"
             class="text-sm font-medium text-gray-900 ms-2"
@@ -43,12 +49,14 @@
     </div>
     <button
       @click="onSubmit"
-      class="my-4 mr-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
+      class="my-4 mr-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
+    >
       Save
     </button>
     <button
       @click="isCreate = false"
-      class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#adadad] to-[#a1a1a1] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#969696] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
+      class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#adadad] to-[#a1a1a1] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#969696] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
+    >
       Close
     </button>
   </div>
@@ -63,6 +71,7 @@
           <th scope="col" class="px-6 py-3">Seats</th>
           <th scope="col" class="px-6 py-3">Doors</th>
           <th scope="col" class="px-6 py-3">SuitCases</th>
+          <th scope="col" class="px-6 py-3">Location</th>
           <th scope="col" class="px-6 py-3">Available</th>
           <th scope="col" class="px-6 py-3">Price</th>
           <th scope="col" class="px-6 py-3">Action</th>
@@ -75,25 +84,29 @@
           </td>
           <th
             scope="row"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+          >
             {{ item?.name }}
           </th>
           <td class="px-6 py-4">{{ item?.year }}</td>
           <td class="px-6 py-4">{{ item?.seats }}</td>
           <td class="px-6 py-4">{{ item?.doors }}</td>
           <td class="px-6 py-4">{{ item?.suitCases }}</td>
+          <td class="px-6 py-4">{{ item?.location }}</td>
           <td class="px-6 py-4">
             {{ item?.available ? "Available" : "Unavailable" }}
           </td>
           <td class="px-6 py-4">{{ item?.price }}</td>
           <td class="px-6 py-4">
             <button
-              class="mr-5 font-medium text-blue-600 underline hover:underline">
+              class="mr-5 font-medium text-blue-600 underline hover:underline"
+            >
               Edit
             </button>
             <button
               @click="deleteCar(item)"
-              class="font-medium text-red-600 underline hover:underline">
+              class="font-medium text-red-600 underline hover:underline"
+            >
               Delete
             </button>
           </td>
