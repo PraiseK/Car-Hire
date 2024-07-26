@@ -1,14 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 
-<<<<<<< HEAD
-const path = {
-  ROOT: '/home',
-  ABOUT: '/about',
-  AVAILABLECAR: '/available-car',
-  MANAGEBOOKING: '/manage-booking',
-  LOGIN: '/login'
-=======
 const PREFIX_PATH_ADMIN = "/admin";
 
 export const PATH = {
@@ -23,18 +15,12 @@ export const PATH = {
   BOOKING_ADMIN: PREFIX_PATH_ADMIN + "/booking",
   DETAIL_BOOKING: PREFIX_PATH_ADMIN + "/booking/:id",
   CAR_ADMIN: PREFIX_PATH_ADMIN + "/car",
->>>>>>> 74a81229cb040af8808fc22efde3df3aacb53989
 };
 
 const routes = [
   {
-<<<<<<< HEAD
-    path: '/',
-    redirect: path.ROOT,
-=======
     path: "/",
     redirect: PATH.ROOT,
->>>>>>> 74a81229cb040af8808fc22efde3df3aacb53989
   },
   {
     path: '/',
@@ -42,21 +28,12 @@ const routes = [
     component: () => import('../shared/LayoutCommon/LayoutCommon.vue'),
     children: [
       {
-<<<<<<< HEAD
-        path: path.ROOT,
-        component: () => import('../components/HomePage/HomePage.vue'),
-      },
-      {
-        path: path.ABOUT,
-        component: () => import('../components/AboutPage/AboutPage.vue'),
-=======
         path: PATH.ROOT,
         component: () => import("../components/HomePage/HomePage.vue"),
       },
       {
         path: PATH.ABOUT,
         component: () => import("../components/AboutPage/AboutPage.vue"),
->>>>>>> 74a81229cb040af8808fc22efde3df3aacb53989
       },
       {
         path: PATH.AVAILABLECAR,
@@ -77,10 +54,6 @@ const routes = [
           import('../components/ManageBooking/ManageBooking.vue'),
       },
       {
-<<<<<<< HEAD
-        path: path.LOGIN,
-        component: () => import('../components/LoginPage/LoginPage.vue'),
-=======
         path: PATH.BOOKING_SUCCESS,
         component: () =>
           import("../components/CongratulationPage/CongratulationPage.vue"),
@@ -108,7 +81,6 @@ const routes = [
         path: PATH.DETAIL_BOOKING,
         component: () =>
           import("../components/DetailBooking/DetailBooking.vue"),
->>>>>>> 74a81229cb040af8808fc22efde3df3aacb53989
       },
     ],
   },
