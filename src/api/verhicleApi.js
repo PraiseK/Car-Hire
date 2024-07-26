@@ -2,7 +2,9 @@ export const CAR_TYPE = {
   AUTOMATIC: "AUTOMATIC",
   MANUAL: "MANUAL",
 };
-
+export const getUser = () => {
+  return [{ username: "admin", password: "admin", role: "ADMIN" }];
+};
 export const getAvailableVerhicles = () => {
   const verhicles = [
     {

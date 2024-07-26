@@ -177,7 +177,7 @@
 import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { LOCAL_DATA } from "../../utils/constants";
-import { getAvailableVerhicles } from "../../api/verhicleApi";
+import { getAvailableVerhicles, getUser } from "../../api/verhicleApi";
 const router = useRouter();
 const search = ref("");
 const fromDate = ref("");
@@ -211,9 +211,16 @@ const searchCars = () => {
 
 onMounted(() => {
   const data = getAvailableVerhicles();
+  const user = getUser();
   const listCar = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
+  const listUser = JSON.parse(
+    localStorage.getItem(LOCAL_DATA.LIST_USER) || "[]"
+  );
   if (!listCar.length) {
     localStorage.setItem(LOCAL_DATA.LIST_CAR, JSON.stringify(data));
+  }
+  if (!listUser.length) {
+    localStorage.setItem(LOCAL_DATA.LIST_USER, JSON.stringify(user));
   }
 });
 </script>

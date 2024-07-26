@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { LOCAL_DATA } from "../utils/constants";
 
 const PREFIX_PATH_ADMIN = "/admin";
 
@@ -11,9 +12,11 @@ export const PATH = {
   BOOKING_SUCCESS: "/booking-success",
   LOGIN: "/login",
   DASH_BOARD: PREFIX_PATH_ADMIN + "/dashboard",
+  ADMIN_LOGIN: PREFIX_PATH_ADMIN,
   BOOKING_ADMIN: PREFIX_PATH_ADMIN + "/booking",
   DETAIL_BOOKING: PREFIX_PATH_ADMIN + "/booking/:id",
   CAR_ADMIN: PREFIX_PATH_ADMIN + "/car",
+  USER_ADMIN: PREFIX_PATH_ADMIN + "/user",
 };
 
 const routes = [
@@ -81,6 +84,21 @@ const routes = [
         component: () =>
           import("../components/DetailBooking/DetailBooking.vue"),
       },
+      {
+        path: PATH.USER_ADMIN,
+        component: () => import("../components/AdminUser/AdminUser.vue"),
+      },
+    ],
+  },
+  {
+    path: "/",
+    name: "AuthLayout",
+    component: () => import("../shared/AuthLayout/AuthLayout.vue"),
+    children: [
+      {
+        path: PATH.ADMIN_LOGIN,
+        component: () => import("../components/AdminLogin/AdminLogin.vue"),
+      },
     ],
   },
 ];
@@ -88,6 +106,25 @@ const routes = [
 const router = createRouter({
   history: createWebHistory("/"),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const authRouter = [
+    PATH.BOOKING_ADMIN,
+    PATH.CAR_ADMIN,
+    PATH.DETAIL_BOOKING,
+    PATH.DASH_BOARD,
+  ];
+  const isLogin = localStorage.getItem(LOCAL_DATA.IS_LOGIN);
+  if (authRouter.includes(to.path)) {
+    if (isLogin) {
+      next();
+    } else {
+      next("/admin");
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
