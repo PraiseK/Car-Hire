@@ -25,6 +25,7 @@
                      placeholder="Last Name" />
             </div>
           </div>
+          <div class="mx-2 text-red-500 font-bold" v-if="error">{{EMPTY_ERROR}}</div>
 
           <div>
             <button
@@ -36,8 +37,8 @@
         </div>
       </div>
     </div>
-    <div class="mx-60">
-      <div>Your booking: </div>
+    <div v-if="details" class="mx-60">
+      <div class="text-2xl font-bold my-10">Your booking: </div>
       <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
@@ -87,8 +88,9 @@
           <td class="px-6 py-4">{{ details?.status }}</td>
         </tr>
         <tr v-if="show">
-          <td colSpan="9">
-            <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
+          <td colspan="5" class="px-10">
+            <div class="text-xl font-bold mb-2">Details Car</div>
+            <table class="detail-car w-full text-sm text-left text-gray-500 rtl:text-right">
               <tbody>
                 <tr>
                   <td>Name</td>
@@ -149,9 +151,9 @@
         </tbody>
       </table>
     </div>
-<!--    <div v-else class="mx-60">-->
-<!--      <p>No booking found !</p>-->
-<!--    </div>-->
+    <div v-if="!details && details !== null" class="mx-60 text-2xl font-bold">
+      <p>No booking found !</p>
+    </div>
   </div>
 </template>
 
@@ -159,16 +161,36 @@
 import {ref} from "vue";
 import {LOCAL_DATA} from "../../utils/constants.js";
 
-const bookingRef = ref('nSg9LoS6')
-const lastName = ref('asdasd')
-const details = ref()
+const EMPTY_ERROR = "Please complete all information!"
+const bookingRef = ref()
+const lastName = ref()
+const details = ref(null)
 const show = ref(false)
+const error = ref(false)
 const onSubmit = () => {
-  const listBooking = JSON.parse(localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]")
-  details.value = listBooking.find(item => item.bookingRef === bookingRef.value && item.lastName === lastName.value)
-  console.log('details.value', details.value)
+  if(bookingRef.value && lastName.value){
+    error.value = false
+    const listBooking = JSON.parse(localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]")
+    details.value = listBooking.find(item => item.bookingRef === bookingRef.value && item.lastName === lastName.value)
+  }else{
+    error.value = true
+    details.value = null
+  }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.detail-car {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  & td, & th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  & tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+}
 </style>
