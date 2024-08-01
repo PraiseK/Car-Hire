@@ -93,11 +93,11 @@
               <h2 class="text-2xl font-bold sm:text-3xl">WHO WE ARE</h2>
 
               <p class="mt-4 text-gray-600">
-                Nunc vulputate, purus sed interdum imperdiet, odio nibh
-                facilisis mi, eget sodales lorem neque ac diam. Suspendisse non
-                mauris euismod, fringilla orci quis, rutrum urna. Phasellus eu
-                eleifend leo. Curabitur eleifend rhoncus tellus, eget mattis
-                lectus efficitur non. Curabitur a urna ex.
+                At Sikuta Australia, we strive to provide top-notch car rental services that meet your needs and exceed your expectations. Our goal is to enhance your journey by offering reliable and efficient vehicles that ensure a smooth and enjoyable ride.
+                  Our fleet consists of a wide range of vehicles, from compact cars for city drives to spacious vans for larger groups or cargo. Every vehicle is meticulously maintained and regularly serviced to guarantee safety and comfort.
+      We are dedicated to offering competitive prices, exceptional customer service, and a seamless rental experience. Whether you're travelling for business or leisure, Sikuta Australia is your trusted partner for all your car rental needs.
+      Thank you for choosing Sikuta Australia. We look forward to serving you and making your travels more efficient and enjoyable.
+
               </p>
 
               <a
