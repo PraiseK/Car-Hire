@@ -62,4 +62,9 @@ const detailBooking = (id) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
