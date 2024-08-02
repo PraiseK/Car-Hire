@@ -7,7 +7,7 @@
         <p class="text-2xl font-bold">1.Driver details</p>
         <form>
           <div class="flex flex-col pt-4">
-            <label>First name*</label>
+            <label>First name <span class="text-red-500">*</span></label>
             <input
               type="text"
               v-model="customerInfo.firstName"
@@ -15,7 +15,7 @@
               required />
           </div>
           <div class="flex flex-col pt-4">
-            <label>Last name*</label>
+            <label>Last name <span class="text-red-500">*</span></label>
             <input
               type="text"
               v-model="customerInfo.lastName"
@@ -23,7 +23,7 @@
               required />
           </div>
           <div class="flex flex-col pt-4">
-            <label>Date of birth*</label>
+            <label>Date of birth <span class="text-red-500">*</span></label>
             <input
               type="date"
               v-model="customerInfo.dob"
@@ -31,7 +31,7 @@
               placeholder="DD/MM/YYYY" />
           </div>
           <div class="flex flex-col pt-4">
-            <label>Email*</label>
+            <label>Email <span class="text-red-500">*</span></label>
             <input
               type="email"
               v-model="customerInfo.email"
@@ -58,7 +58,7 @@
             </label>
           </div>
           <div class="flex flex-col pt-4">
-            <label>Phone Number*</label>
+            <label>Phone Number <span class="text-red-500">*</span></label>
             <div class="flex items-center">
               <button
                 id="dropdown-phone-button"
@@ -148,11 +148,12 @@
               </div>
             </div>
           </div>
+          <div v-if="errorRequired" class="text-red-500 pt-5 font-bold">{{EMPTY_ERROR}}</div>
         </form>
       </div>
       <!--Cart Verhicle Review Section-->
       <div
-        class="relative p-3 border-solid border-[#bfbfbf] border rounded-md h-[70vh]">
+        class="p-3 border-solid border-[#bfbfbf] border rounded-md">
         <p class="text-2xl font-bold">Review</p>
         <div class="flex justify-between pt-6 pb-2 border-b-2">
           <p class="text-xl font-bold">Verhicle</p>
@@ -312,7 +313,7 @@
           }}</label>
         </div>
         <div class="bg-[#f7f7f7] p-4 rounded-b-md">
-          <label class="text-sm font-bold">Pick up</label>
+          <label class="text-sm font-bold">Drop off</label>
 
           <p class="text-lg font-bold">{{ verhicleSelected.location }}</p>
           <label class="text-sm text-[#8b7e7e]">{{
@@ -323,13 +324,13 @@
 
         <!--Total Status-->
 
-        <div class="absolute flex flex-col w-[94%] pt-3 bottom-10 border-t-2">
+        <div class="flex flex-col w-[94%] pt-3 border-t-2">
           <div class="flex justify-between pb-5">
             <p class="font-[400] text-md">Hiring Duration</p>
             <p>{{ hiringObject.hiringDuration }} Days</p>
           </div>
 
-          <div class="flex justify-between">
+          <div class="flex justify-between pb-3">
             <p class="text-2xl font-bold">Total</p>
             <p class="text-2xl font-bold">
               {{
@@ -360,7 +361,9 @@ import { ref, onMounted, reactive, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import { generateRandomCharacters } from "../../utils/help";
 import { LOCAL_DATA } from "../../utils/constants";
+import emailjs from '@emailjs/browser';
 
+const EMPTY_ERROR = "Please complete all information!"
 const router = useRouter();
 const verhicleSelected = ref({});
 const hiringObject = ref({});
@@ -374,6 +377,7 @@ const customerInfo = reactive({
   email: "",
   phone: "",
 });
+const errorRequired = ref(false)
 
 onMounted(() => {
   const savedVehicle = JSON.parse(localStorage.getItem("selectedVerhicle"));
@@ -390,37 +394,57 @@ onMounted(() => {
   }
 });
 
+const sendEmail = () => {
+  const form = {
+    firstName: customerInfo.firstName,
+    lastName: customerInfo.lastName,
+    bookingRef: bookingRef.value,
+    user_email: customerInfo.email,
+  }
+  emailjs
+      .send('service_61n263z', 'template_3y7e9kg', form, {
+        publicKey: 'Mzy_4zA9jyGHtYCb4',
+      })
+}
+
 const onSubmit = () => {
-  const ref = generateRandomCharacters(8);
-  const payload = {
-    ...JSON.parse(JSON.stringify(customerInfo)),
-    ...hiringObject.value,
-    ...verhicleSelected.value,
-    status: "PENDING",
-    bookingRef: ref,
-  };
-  bookingRef.value = ref;
-  localStorage.setItem(
-    LOCAL_DATA.BOOKING_LIST,
-    JSON.stringify([...bookingObject.value, payload])
-  );
-  carList.value = carList.value.map((item) => {
-    if (+payload.id === +item.id) {
-      return {
-        ...item,
-        available: false,
-      };
-    } else {
-      return item;
-    }
-  });
-  localStorage.setItem(
-    LOCAL_DATA.LIST_CAR,
-    JSON.stringify(toRaw(carList.value))
-  );
-  localStorage.removeItem("selectedVerhicle");
-  localStorage.removeItem("hiringObject");
-  router.push(`/booking-success?ref=${bookingRef.value}`);
+  errorRequired.value = false
+  const checkRequiredValues = Object.values(customerInfo).every(item => item)
+  if(checkRequiredValues){
+    const ref = generateRandomCharacters(8);
+    const payload = {
+      ...JSON.parse(JSON.stringify(customerInfo)),
+      ...hiringObject.value,
+      ...verhicleSelected.value,
+      status: "PENDING",
+      bookingRef: ref,
+    };
+    bookingRef.value = ref;
+    localStorage.setItem(
+        LOCAL_DATA.BOOKING_LIST,
+        JSON.stringify([...bookingObject.value, payload])
+    );
+    carList.value = carList.value.map((item) => {
+      if (+payload.id === +item.id) {
+        return {
+          ...item,
+          available: false,
+        };
+      } else {
+        return item;
+      }
+    });
+    localStorage.setItem(
+        LOCAL_DATA.LIST_CAR,
+        JSON.stringify(toRaw(carList.value))
+    );
+    localStorage.removeItem("selectedVerhicle");
+    localStorage.removeItem("hiringObject");
+    router.push(`/booking-success?ref=${bookingRef.value}`);
+    sendEmail()
+  }else{
+    errorRequired.value = true
+  }
 };
 </script>
 
