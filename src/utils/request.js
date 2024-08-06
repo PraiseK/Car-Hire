@@ -3,7 +3,7 @@ import { KEY, getCookie, removeCookie } from "./cookie";
 // import path from "../routes/path";
 
 const service = axios.create({
-  baseURL: "http://localhost:9000",
+  baseURL: "https://sikuta-be.onrender.com",
 });
 
 service.interceptors.request.use(
