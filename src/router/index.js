@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { LOCAL_DATA } from "../utils/constants";
+import { getCookie, KEY } from "../utils/cookie";
 
 const PREFIX_PATH_ADMIN = "/admin";
 
@@ -115,7 +115,7 @@ router.beforeEach((to, from, next) => {
     PATH.DETAIL_BOOKING,
     PATH.DASH_BOARD,
   ];
-  const isLogin = localStorage.getItem(LOCAL_DATA.IS_LOGIN);
+  const isLogin = getCookie(KEY.TOKEN);
   if (authRouter.includes(to.path)) {
     if (isLogin) {
       next();

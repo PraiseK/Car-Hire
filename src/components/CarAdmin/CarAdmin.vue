@@ -41,13 +41,19 @@
         </div>
       </div>
     </div>
+    <div v-if="isError" class="font-bold text-red-500">
+      Input can not be empty !
+    </div>
     <button
       @click="onSubmit"
       class="my-4 mr-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
       Save
     </button>
     <button
-      @click="isCreate = false"
+      @click="
+        isCreate = false;
+        isError = false;
+      "
       class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#adadad] to-[#a1a1a1] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#969696] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
       Close
     </button>
@@ -72,27 +78,57 @@
       <tbody>
         <tr v-for="item of listCar" class="bg-white border-b">
           <td class="px-6 py-4">
-            <img :src="item.imgDir" alt="veh-review" width="100" height="70" />
+            <img :src="item.image" alt="veh-review" width="100" height="70" />
           </td>
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-            {{ item?.name }}
+            {{ item?.carname }}
           </th>
           <td class="px-6 py-4">{{ item?.year }}</td>
           <td class="px-6 py-4">{{ item?.seats }}</td>
           <td class="px-6 py-4">{{ item?.doors }}</td>
-          <td class="px-6 py-4">{{ item?.suitCases }}</td>
-          <td class="px-6 py-4">{{ item?.location }}</td>
+          <td class="px-6 py-4">{{ item?.suit_cases }}</td>
+          <td v-if="item._id === editId" class="px-6 py-4">
+            <input
+              v-model="location"
+              class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-28" />
+          </td>
+          <td v-else class="px-6 py-4">{{ item?.location }}</td>
           <td class="px-6 py-4">
             {{ item?.available ? "Available" : "Unavailable" }}
           </td>
-          <td class="px-6 py-4">{{ item?.price }}</td>
+          <td v-if="item._id === editId" class="px-6 py-4">
+            <input
+              v-model="price"
+              class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-16" />
+          </td>
+          <td v-else class="px-6 py-4">${{ item?.price }}</td>
           <td class="px-6 py-4">
-            <button class="mr-5 font-medium text-blue-600 underline">
+            <button
+              @click="onUpdated(item)"
+              class="mr-5 font-medium text-blue-600 underline"
+              v-if="item._id === editId">
+              Save
+            </button>
+            <button
+              v-else
+              class="mr-5 font-medium text-blue-600 underline"
+              @click="
+                editId = item?._id;
+                location = item?.location;
+                price = item?.price;
+              ">
               Edit
             </button>
             <button
+              v-if="item._id === editId"
+              @click="handleClose"
+              class="font-medium text-red-600 underline">
+              Cancel
+            </button>
+            <button
+              v-else
               @click="deleteCar(item)"
               class="font-medium text-red-600 underline">
               Delete
@@ -106,65 +142,115 @@
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
-import { LOCAL_DATA } from "../../utils/constants";
 import { CAR_TYPE } from "../../utils/constants";
+import {
+  ApiCreateCar,
+  ApiDeleteCar,
+  ApiGetAllCar,
+  ApiUpdateCar,
+} from "../../api/car";
 
 const initialValue = {
-  name: "",
+  carname: "",
   make: "",
-  model: "",
+  modal: "",
   year: "",
   seats: "",
   doors: "",
   ac: "",
-  suitCases: "",
-  drivingAge: "",
+  suit_cases: "",
+  driving_age: "",
   location: "",
   price: "",
-  imgDir: "",
-  carType: "",
-  isHybird: "",
+  image: "",
+  car_type: "",
+  hybrid: "",
 };
 let form = reactive({ ...initialValue });
 const listCar = ref([]);
+const isError = ref(false);
+const editId = ref();
+const location = ref();
+const price = ref();
 const inputModel = [
-  { label: "Car name", prop: "name", type: "input" },
+  { label: "Car name", prop: "carname", type: "input" },
   { label: "Make", prop: "make", type: "input" },
-  { label: "Modal", prop: "model", type: "input" },
+  { label: "Modal", prop: "modal", type: "input" },
   { label: "Year", prop: "year", type: "input" },
   { label: "Seats", prop: "seats", type: "input" },
   { label: "Doors", prop: "doors", type: "input" },
   { label: "AC", prop: "ac", type: "checkbox" },
-  { label: "Suit Cases", prop: "suitCases", type: "input" },
-  { label: "Driving Age", prop: "drivingAge", type: "input" },
+  { label: "Suit Cases", prop: "suit_cases", type: "input" },
+  { label: "Driving Age", prop: "driving_age", type: "input" },
   { label: "Location", prop: "location", type: "input" },
   { label: "Price", prop: "price", type: "input" },
-  { label: "Image", prop: "imgDir", type: "input" },
-  { label: "Car Type", prop: "carType", type: "select" },
-  { label: "Hybrid", prop: "isHybird", type: "checkbox" },
+  { label: "Image", prop: "image", type: "input" },
+  { label: "Car Type", prop: "car_type", type: "select" },
+  { label: "Hybrid", prop: "hybrid", type: "checkbox" },
 ];
 const isCreate = ref(false);
 onMounted(() => {
-  listCar.value = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
+  initData();
 });
 
-const onSubmit = () => {
-  const payload = {
-    ...form,
-    id: Math.floor(Math.random() * 9999),
-    available: true,
-    ac: Boolean(form.ac),
-    isHybird: Boolean(form.isHybird),
-  };
-  listCar.value = [...listCar.value, payload];
-  localStorage.setItem(LOCAL_DATA.LIST_CAR, JSON.stringify(listCar.value));
-  isCreate.value = false;
-  form = reactive(initialValue);
+const initData = async () => {
+  try {
+    const res = await ApiGetAllCar();
+    listCar.value = res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const deleteCar = (item) => {
-  listCar.value = listCar.value.filter((v) => v.id !== item.id);
-  localStorage.setItem(LOCAL_DATA.LIST_CAR, JSON.stringify(listCar.value));
+const onSubmit = async () => {
+  const payload = {
+    ...form,
+    available: true,
+    ac: Boolean(form.ac),
+    hybrid: Boolean(form.hybrid),
+  };
+  if (Object.values(payload).some((i) => i === "")) {
+    isError.value = true;
+  } else {
+    isError.value = false;
+    try {
+      await ApiCreateCar(payload);
+      isCreate.value = false;
+      form = reactive(initialValue);
+      initData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+const onUpdated = async (item) => {
+  try {
+    await ApiUpdateCar(item._id, {
+      ...item,
+      price: price.value,
+      location: location.value,
+    });
+    handleClose();
+    initData();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleClose = () => {
+  editId.value = null;
+  location.value = null;
+  price.value = null;
+};
+
+const deleteCar = async (item) => {
+  try {
+    await ApiDeleteCar(item._id);
+    initData();
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 

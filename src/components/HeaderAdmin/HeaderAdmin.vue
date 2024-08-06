@@ -25,6 +25,7 @@
 import { useRoute, useRouter } from "vue-router";
 import { LOCAL_DATA } from "../../utils/constants";
 import { onMounted, ref } from "vue";
+import { KEY, removeCookie } from "../../utils/cookie";
 
 const listNav = ref([
   {
@@ -50,8 +51,9 @@ const activeNav = (pathName) => {
 };
 const logout = () => {
   router.push("/admin");
-  localStorage.removeItem(LOCAL_DATA.IS_LOGIN);
-  localStorage.removeItem(LOCAL_DATA.ROLE);
+  removeCookie(KEY.ROLE);
+  removeCookie(KEY.USERNAME);
+  removeCookie(KEY.TOKEN);
 };
 
 onMounted(() => {

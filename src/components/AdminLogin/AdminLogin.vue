@@ -36,9 +36,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { LOCAL_DATA } from "../../utils/constants";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { ApiAuthLogin } from "../../api/auth";
+import { KEY, setCookie } from "../../utils/cookie";
 
 const router = useRouter();
 const ERROR_EMPTY = "Input can not be empty !";
@@ -47,7 +48,7 @@ const form = reactive({
   password: "",
   error: {},
 });
-const onSubmit = () => {
+const onSubmit = async () => {
   const error = {};
   if (!form.username) {
     error.username = true;
@@ -58,20 +59,17 @@ const onSubmit = () => {
 
   form.error = error;
   if (Object.keys(error).length === 0) {
-    const listUser = JSON.parse(
-      localStorage.getItem(LOCAL_DATA.LIST_USER || "[]")
-    );
-
-    const user = listUser.find(
-      (item) =>
-        item.username === form.username && item.password === form.password
-    );
-    if (user) {
+    try {
+      const res = await ApiAuthLogin({
+        username: form.username,
+        password: form.password,
+      });
+      setCookie(KEY.TOKEN, res.data.accessToken);
+      setCookie(KEY.USERNAME, res.data.username);
+      setCookie(KEY.ROLE, res.data.role);
       router.push("/admin/dashboard");
-      localStorage.setItem(LOCAL_DATA.ROLE, user.role);
-      localStorage.setItem(LOCAL_DATA.IS_LOGIN, true);
-    } else {
-      alert("Wrong password or username !");
+    } catch (error) {
+      console.log(error);
     }
   }
 };
