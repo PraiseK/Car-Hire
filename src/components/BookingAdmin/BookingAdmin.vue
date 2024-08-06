@@ -18,23 +18,27 @@
       <tbody>
         <tr v-for="item of listBooking" class="bg-white border-b">
           <td class="px-6 py-4">
-            <img :src="item.imgDir" alt="veh-review" width="100" height="70" />
+            <img
+              :src="item.car.image"
+              alt="veh-review"
+              width="100"
+              height="70" />
           </td>
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
             {{ item?.bookingRef }}
           </th>
-          <td class="px-6 py-4">{{ item?.name }}</td>
+          <td class="px-6 py-4">{{ item?.car.carname }}</td>
           <td class="px-6 py-4">{{ item?.firstName }} {{ item?.lastName }}</td>
           <td class="px-6 py-4">{{ item?.fromDate }} - {{ item?.toDate }}</td>
           <td class="px-6 py-4">{{ item?.location }}</td>
-          <td class="px-6 py-4">{{ item?.price }}</td>
+          <td class="px-6 py-4">${{ item?.price }}</td>
           <td class="px-6 py-4">{{ item?.status }}</td>
           <td class="px-6 py-4">
             <button
               class="font-medium text-blue-600 hover:underline"
-              @click="detailBooking(item.bookingRef)">
+              @click="detailBooking(item._id)">
               Edit
             </button>
           </td>
@@ -47,14 +51,17 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { LOCAL_DATA } from "../../utils/constants";
+import { ApiGetAllBooking } from "../../api/booking";
 
 const router = useRouter();
 const listBooking = ref([]);
-onMounted(() => {
-  listBooking.value = JSON.parse(
-    localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]"
-  );
+onMounted(async () => {
+  try {
+    const res = await ApiGetAllBooking();
+    listBooking.value = res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const detailBooking = (id) => {
@@ -62,5 +69,4 @@ const detailBooking = (id) => {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

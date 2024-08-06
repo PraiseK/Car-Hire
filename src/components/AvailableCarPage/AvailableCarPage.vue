@@ -11,13 +11,13 @@
             <div
               class="inline-flex items-center justify-center flex-shrink-0 sm:mr-10">
               <img
-                :src="verhicle.imgDir"
+                :src="verhicle.image"
                 alt="verhicle"
                 class="object-cover object-center" />
             </div>
             <div class="flex-grow mt-6 text-center sm:text-left sm:mt-0">
               <h1 class="mb-2 text-2xl font-bold text-black title-font">
-                {{ verhicle.name }}
+                {{ verhicle.carname }}
               </h1>
               <div class="py-4">
                 <div class="inline-block mr-2">
@@ -103,7 +103,7 @@
                         fill-rule="evenodd"></use>
                     </svg>
                     <p class="font-medium title-font">
-                      {{ verhicle.suitCases }}
+                      {{ verhicle.suit_cases }}
                     </p>
                   </div>
                 </div>
@@ -133,7 +133,9 @@
                         xlink:href="#transmission_svg__a"
                         fill-rule="evenodd"></use>
                     </svg>
-                    <p class="font-medium title-font">{{ verhicle.carType }}</p>
+                    <p class="font-medium title-font">
+                      {{ verhicle.car_type }}
+                    </p>
                   </div>
                 </div>
 
@@ -195,7 +197,7 @@
                         fill-rule="evenodd"></use>
                     </svg>
                     <p class="font-medium title-font">
-                      {{ verhicle.drivingAge }}
+                      {{ verhicle.driving_age }}
                     </p>
                   </div>
                 </div>
@@ -472,21 +474,20 @@
 </template>
 
 <script setup>
-import { getAvailableVerhicles } from "../../api/verhicleApi";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { LOCAL_DATA } from "../../utils/constants";
+import { ApiGetCarAvailabel } from "../../api/car";
 const route = useRoute();
 const router = useRouter();
 
 const availableVerhicles = ref([]);
-onMounted(() => {
-  const data = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
-  availableVerhicles.value = data.filter(
-    (verhicle) =>
-      verhicle.location.toLowerCase() === route.query.search.toLowerCase() &&
-      verhicle.available
-  );
+onMounted(async () => {
+  try {
+    const res = await ApiGetCarAvailabel(route.query.search);
+    availableVerhicles.value = res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const handleClick = (verhicle) => {

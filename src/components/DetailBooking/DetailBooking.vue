@@ -5,16 +5,12 @@
   <div>
     <div class="mb-5 text-lg font-semibold">Select Car:</div>
     <select
-      v-model="detailBooking.id"
+      v-model="carId"
       @change="onChange($event)"
       class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none">
       <option v-for="item of cars" :value="item.id">{{ item.name }}</option>
     </select>
-    <img
-      :src="detailBooking.imgDir"
-      alt="veh-review"
-      width="300"
-      height="300" />
+    <img :src="carImage" alt="veh-review" width="300" height="300" />
   </div>
   <p class="mb-5 text-lg font-semibold">
     Customer Name: {{ detailBooking.lastName }} {{ detailBooking.lastName }}
@@ -26,12 +22,11 @@
     Pick-up Location: {{ detailBooking.location }}
   </p>
   <p class="mb-5 text-lg font-semibold">
-    Price: <span class="text-red-400">${{ detailBooking.price }}</span>
+    Price: <span class="text-red-400">${{ price }}</span>
   </p>
   <div class="mb-5 text-lg font-semibold">Status:</div>
   <select
     v-model="detailBooking.status"
-    @change="onChange($event)"
     class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none">
     <option v-for="item of STATUS_BOOKING" :value="item">{{ item }}</option>
   </select>
@@ -44,58 +39,66 @@
 </template>
 
 <script setup>
-import { onMounted, ref, toRaw } from "vue";
-import { LOCAL_DATA, STATUS_BOOKING } from "../../utils/constants";
+import { onMounted, ref } from "vue";
+import { STATUS_BOOKING } from "../../utils/constants";
 import { useRoute, useRouter } from "vue-router";
+import { ApiGetBookingDetail, ApiUpdateBooking } from "../../api/booking";
+import { ApiGetAllCar } from "../../api/car";
 
 const route = useRoute();
 const router = useRouter();
 const detailBooking = ref({});
-const detailBackUp = ref();
-const listBooking = ref([]);
 const cars = ref([]);
-onMounted(() => {
-  cars.value = JSON.parse(localStorage.getItem(LOCAL_DATA.LIST_CAR) || "[]");
-  listBooking.value = JSON.parse(
-    localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]"
-  );
-  const details = listBooking.value.find(
-    (item) => item.bookingRef === route.path.split("/")?.[3]
-  );
-  detailBooking.value = details;
-  detailBackUp.value = details.id;
+const carId = ref();
+const carImage = ref();
+const price = ref();
+const hiringDuration = ref();
+onMounted(async () => {
+  try {
+    const res = await ApiGetBookingDetail(route.path.split("/")?.[3]);
+    detailBooking.value = res.data.data;
+    carId.value = res.data.data.car._id;
+    carImage.value = res.data.data.car.image;
+    price.value = res.data.data.car.price * res.data.data.hiringDuration;
+    hiringDuration.value = res.data.data.hiringDuration;
+  } catch (error) {
+    console.log(error);
+  }
+
+  try {
+    const res = await ApiGetAllCar();
+    cars.value = res.data.data.map((item) => ({
+      id: item._id,
+      name: item.carname,
+      image: item.image,
+      price: item.price,
+    }));
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const onChange = (e) => {
-  const selectedCar = toRaw(
-    cars.value.find((item) => +item.id === +e.target.value)
-  );
-  detailBooking.value = Object.assign(detailBooking.value, selectedCar);
+  carId.value = cars.value.find((item) => item.id === e.target.value).id;
+  carImage.value = cars.value.find((item) => item.id === e.target.value).image;
+  price.value =
+    cars.value.find((item) => item.id === e.target.value).price *
+    hiringDuration.value;
 };
 
-const onSubmit = () => {
-  const result = listBooking.value.map((item) => {
-    if (detailBooking.value.bookingRef === item.bookingRef) {
-      return toRaw(detailBooking.value);
-    } else {
-      return item;
-    }
-  });
+const onSubmit = async () => {
+  const payload = {
+    ...detailBooking.value,
+    car: carId.value,
+    price: price.value,
+  };
 
-  if (detailBooking.value.id !== detailBackUp.value) {
-    const newListCar = cars.value.map((item) => {
-      if (item.id === detailBackUp.value) return { ...item, available: true };
-      else if (item.id === detailBooking.value.id)
-        return { ...item, available: false };
-      else return item;
-    });
-    localStorage.setItem(
-      LOCAL_DATA.LIST_CAR,
-      JSON.stringify(toRaw(newListCar))
-    );
+  try {
+    await ApiUpdateBooking(detailBooking.value._id, payload);
+    router.push("/admin/booking");
+  } catch (error) {
+    console.log(error);
   }
-  localStorage.setItem(LOCAL_DATA.BOOKING_LIST, JSON.stringify(toRaw(result)));
-  router.push("/admin/booking");
 };
 </script>
 
