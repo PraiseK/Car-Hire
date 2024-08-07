@@ -8,7 +8,7 @@
       v-model="carId"
       @change="onChange($event)"
       class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none">
-      <option v-for="item of cars" :value="item.id">{{ item.name }}</option>
+      <option v-for="item of cars" :value="item.id" :disabled="!item.available">{{ item.name }}</option>
     </select>
     <img :src="carImage" alt="veh-review" width="300" height="300" />
   </div>
@@ -49,6 +49,7 @@ const route = useRoute();
 const router = useRouter();
 const detailBooking = ref({});
 const cars = ref([]);
+const carsIdOld = ref([]);
 const carId = ref();
 const carImage = ref();
 const price = ref();
@@ -58,6 +59,7 @@ onMounted(async () => {
     const res = await ApiGetBookingDetail(route.path.split("/")?.[3]);
     detailBooking.value = res.data.data;
     carId.value = res.data.data.car._id;
+    carsIdOld.value = res.data.data.car._id;
     carImage.value = res.data.data.car.image;
     price.value = res.data.data.car.price * res.data.data.hiringDuration;
     hiringDuration.value = res.data.data.hiringDuration;
@@ -72,6 +74,7 @@ onMounted(async () => {
       name: item.carname,
       image: item.image,
       price: item.price,
+      available: item.available,
     }));
   } catch (error) {
     console.log(error);
@@ -91,6 +94,7 @@ const onSubmit = async () => {
     ...detailBooking.value,
     car: carId.value,
     price: price.value,
+    carOld: carsIdOld.value
   };
 
   try {
