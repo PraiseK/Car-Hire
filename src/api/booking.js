@@ -29,3 +29,11 @@ export function ApiUpdateBooking(id, data) {
     data,
   });
 }
+
+export function ApiGetBookingClient(data) {
+  return request({
+    url: "/booking/booking-client",
+    method: "post",
+    data,
+  });
+}

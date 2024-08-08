@@ -39,13 +39,6 @@
           <router-link to="/manage-booking">MANAGE BOOKING</router-link>
         </li>
       </ul>
-      <div class="hidden items-center justify-center gap-6 lg:pr-12 md:flex">
-        <a
-          href="/login"
-          class="rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
-          >Sign up
-        </a>
-      </div>
       <div class="relative flex items-center justify-center pr-5 md:hidden">
         <button type="button">
           <svg

@@ -47,10 +47,6 @@ const routes = [
         component: () => import("../components/CartPage/CartPage.vue"),
       },
       {
-        path: PATH.LOGIN,
-        component: () => import("../components/LoginPage/LoginPage.vue"),
-      },
-      {
         path: PATH.MANAGEBOOKING,
         component: () =>
           import("../components/ManageBooking/ManageBooking.vue"),

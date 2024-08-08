@@ -73,18 +73,18 @@
             </svg>
           </td>
           <td class="px-6 py-4">
-            <img :src="details?.imgDir" alt="veh-review" width="100" height="70" />
+            <img :src="details?.car?.image" alt="veh-review" width="100" height="70" />
           </td>
           <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
             {{ details?.bookingRef }}
           </th>
-          <td class="px-6 py-4">{{ details?.name }}</td>
+          <td class="px-6 py-4">{{ details?.car?.carname }}</td>
           <td class="px-6 py-4">{{ details?.firstName }} {{ details?.lastName }}</td>
           <td class="px-6 py-4">{{ details?.fromDate }} - {{ details?.toDate }}</td>
           <td class="px-6 py-4">{{ details?.location }}</td>
-          <td class="px-6 py-4">{{ details?.price }}</td>
+          <td class="px-6 py-4">${{ details?.price }}</td>
           <td class="px-6 py-4">{{ details?.status }}</td>
         </tr>
         <tr v-if="show">
@@ -94,55 +94,55 @@
               <tbody>
                 <tr>
                   <td>Name</td>
-                  <td>{{details?.name}}</td>
+                  <td>{{details?.car?.carname}}</td>
                 </tr>
                 <tr>
                   <td>Make</td>
-                  <td>{{details?.make}}</td>
+                  <td>{{details?.car?.make}}</td>
                 </tr>
                 <tr>
                   <td>Model</td>
-                  <td>{{details?.model}}</td>
+                  <td>{{details?.car?.model}}</td>
                 </tr>
                 <tr>
                   <td>Year</td>
-                  <td>{{details?.year}}</td>
+                  <td>{{details?.car?.year}}</td>
                 </tr>
                 <tr>
                   <td>Seats</td>
-                  <td>{{details?.seats}}</td>
+                  <td>{{details?.car?.seats}}</td>
                 </tr>
                 <tr>
                   <td>Doors</td>
-                  <td>{{details?.doors}}</td>
+                  <td>{{details?.car?.doors}}</td>
                 </tr>
                 <tr>
                   <td>AC</td>
-                  <td>{{details?.ac ? 'Yes' : 'No'}}</td>
+                  <td>{{details?.car?.ac ? 'Yes' : 'No'}}</td>
                 </tr>
                 <tr>
                   <td>Suit Cases</td>
-                  <td>{{details?.suitCases}}</td>
+                  <td>{{details?.car?.suit_cases}}</td>
                 </tr>
                 <tr>
                   <td>Driving Age</td>
-                  <td>{{details?.drivingAge}}</td>
+                  <td>{{details?.car?.driving_age}}</td>
                 </tr>
                 <tr>
                   <td>Location</td>
-                  <td>{{details?.location}}</td>
+                  <td>{{details?.car?.location}}</td>
                 </tr>
                 <tr>
                   <td>Price</td>
-                  <td>{{details?.price}}</td>
+                  <td>{{details?.car?.price}}</td>
                 </tr>
                 <tr>
                   <td>Car Type</td>
-                  <td>{{details?.carType}}</td>
+                  <td>{{details?.car?.car_type}}</td>
                 </tr>
                 <tr>
                   <td>Hybird</td>
-                  <td>{{details?.isHybird ? 'Yes' : 'No'}}</td>
+                  <td>{{details?.car?.hybird ? 'Yes' : 'No'}}</td>
                 </tr>
               </tbody>
             </table>
@@ -159,7 +159,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {LOCAL_DATA} from "../../utils/constants.js";
+import {ApiGetBookingClient} from "../../api/booking.js";
 
 const EMPTY_ERROR = "Please complete all information!"
 const bookingRef = ref()
@@ -167,11 +167,18 @@ const lastName = ref()
 const details = ref(null)
 const show = ref(false)
 const error = ref(false)
-const onSubmit = () => {
+const onSubmit = async () => {
   if(bookingRef.value && lastName.value){
     error.value = false
-    const listBooking = JSON.parse(localStorage.getItem(LOCAL_DATA.BOOKING_LIST) || "[]")
-    details.value = listBooking.find(item => item.bookingRef === bookingRef.value && item.lastName === lastName.value)
+    try {
+      const res = await ApiGetBookingClient({
+        bookingRef: bookingRef.value,
+        lastName: lastName.value,
+      })
+      details.value = res.data.data
+    }catch (e) {
+      console.log(e)
+    }
   }else{
     error.value = true
     details.value = null

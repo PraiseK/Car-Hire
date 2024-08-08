@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-col">
+  <section v-if="availableVerhicles" class="flex flex-col">
     <template v-if="availableVerhicles.length > 0">
       <section
         v-for="verhicle in availableVerhicles"
@@ -480,7 +480,7 @@ import { ApiGetCarAvailabel } from "../../api/car";
 const route = useRoute();
 const router = useRouter();
 
-const availableVerhicles = ref([]);
+const availableVerhicles = ref();
 onMounted(async () => {
   try {
     const res = await ApiGetCarAvailabel(route.query.search);
