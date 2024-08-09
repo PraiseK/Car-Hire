@@ -1,38 +1,45 @@
 <template>
   <button
     @click="isCreate = true"
-    class="bg-[#DC143C] text-white p-3 font-semibold capitalize rounded cursor-pointer">
+    class="bg-[#DC143C] text-white p-3 font-semibold capitalize rounded cursor-pointer"
+  >
     Create new user
   </button>
   <div
     v-if="isCreate"
-    class="p-3 my-4 border border-gray-300 border-solid rounded">
+    class="p-3 my-4 border border-gray-300 border-solid rounded"
+  >
     <div class="flex flex-wrap items-end gap-3">
       <label
         for="userName"
-        class="block mb-2 text-sm font-medium text-gray-900">
+        class="block mb-2 text-sm font-medium text-gray-900"
+      >
         UserName
       </label>
       <input
         v-model="form.username"
         id="userName"
-        class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72" />
+        class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72"
+      />
       <label
         for="password"
-        class="block mb-2 text-sm font-medium text-gray-900">
+        class="block mb-2 text-sm font-medium text-gray-900"
+      >
         Password
       </label>
       <input
         v-model="form.password"
         id="password"
         type="password"
-        class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72" />
+        class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72"
+      />
       <label for="role" class="block mb-2 text-sm font-medium text-gray-900">
         Role
       </label>
       <select
         v-model="form.role"
-        class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72">
+        class="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-72"
+      >
         <option v-for="item of ROLE_SELECT" :value="item.value">
           {{ item.label }}
         </option>
@@ -43,12 +50,14 @@
     </p>
     <button
       @click="onSubmit"
-      class="my-4 mr-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
+      class="my-4 mr-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
+    >
       Save
     </button>
     <button
       @click="isCreate = false"
-      class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#adadad] to-[#a1a1a1] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#969696] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
+      class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#adadad] to-[#a1a1a1] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#969696] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
+    >
       Close
     </button>
   </div>
@@ -87,12 +96,14 @@
           <td class="px-6 py-4 mr-5">
             <button
               class="mr-5 font-medium text-blue-600 underline"
-              @click="detailBooking(item.bookingRef)">
+              @click="detailBooking(item.bookingRef)"
+            >
               Edit
             </button>
             <button
               class="font-medium text-red-600 underline"
-              @click="deleteUser(item)">
+              @click="deleteUser(item)"
+            >
               Delete
             </button>
           </td>
@@ -104,7 +115,8 @@
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
-import { LOCAL_DATA, ROLE_SELECT } from "../../utils/constants";
+import { ROLE_SELECT } from "../../utils/constants";
+import { ApiAuthGetUser, ApiAuthRegister } from "../../api/auth";
 
 const ERROR_EMPTY = "Input can not be empty !";
 const initialValues = {
@@ -117,19 +129,25 @@ let form = reactive({ ...initialValues });
 const isCreate = ref(false);
 const listUser = ref([]);
 const listUserBackup = ref([]);
-onMounted(() => {
-  listUserBackup.value = JSON.parse(
-    localStorage.getItem(LOCAL_DATA.LIST_USER) || "[]"
-  );
-  listUser.value = JSON.parse(
-    localStorage.getItem(LOCAL_DATA.LIST_USER) || "[]"
-  ).filter((item) => item.role !== "ADMIN");
+
+onMounted(async () => {
+  try {
+    const response = await ApiAuthGetUser();
+    const users = response.data.data;
+    listUserBackup.value = users;
+
+    console.log(users);
+    listUser.value = users.filter((item) => item.role !== "ADMIN");
+  } catch (error) {
+    console.error("Error loading users:", error);
+  }
 });
 
-const onSubmit = () => {
+const onSubmit = async () => {
   const compare = listUserBackup.value.every(
     (item) => item.username !== form.username
   );
+
   if (!form.username || !form.password || !form.role) {
     form.error = true;
   } else if (!compare) {
@@ -137,19 +155,32 @@ const onSubmit = () => {
     alert("Username is already exist!");
   } else {
     form.error = false;
-    const payload = {
-      username: form.username,
-      password: form.password,
-      role: form.role,
-    };
-    localStorage.setItem(
-      LOCAL_DATA.LIST_USER,
-      JSON.stringify([...listUserBackup.value, payload])
-    );
-    listUserBackup.value = [...listUserBackup.value, payload];
-    listUser.value = [...listUser.value, payload];
-    form = reactive({ ...initialValues });
-    isCreate.value = false;
+
+    try {
+      const payload = {
+        username: form.username,
+        password: form.password,
+        role: form.role,
+      };
+
+      const response = await ApiAuthRegister(payload);
+
+      if (response && response.data) {
+        listUserBackup.value = [...listUserBackup.value, payload];
+        listUser.value = [...listUser.value, payload];
+
+        // Reset form
+        form = reactive({ ...initialValues });
+        isCreate.value = false;
+
+        alert("User registered successfully!");
+      } else {
+        alert("Failed to register user.");
+      }
+    } catch (error) {
+      console.error("Error registering user:", error);
+      alert("Error occurred while registering user.");
+    }
   }
 };
 
@@ -159,10 +190,6 @@ const deleteUser = (user) => {
   );
   listUser.value = listUser.value.filter(
     (item) => item.username !== user.username
-  );
-  localStorage.setItem(
-    LOCAL_DATA.LIST_USER,
-    JSON.stringify(listUserBackup.value)
   );
 };
 </script>

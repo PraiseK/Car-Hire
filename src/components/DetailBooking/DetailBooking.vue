@@ -7,8 +7,11 @@
     <select
       v-model="carId"
       @change="onChange($event)"
-      class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none">
-      <option v-for="item of cars" :value="item.id" :disabled="!item.available">{{ item.name }}</option>
+      class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none"
+    >
+      <option v-for="item of cars" :value="item.id" :disabled="!item.available">
+        {{ item.name }}
+      </option>
     </select>
     <img :src="carImage" alt="veh-review" width="300" height="300" />
   </div>
@@ -27,13 +30,15 @@
   <div class="mb-5 text-lg font-semibold">Status:</div>
   <select
     v-model="detailBooking.status"
-    class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none">
+    class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 outline-none"
+  >
     <option v-for="item of STATUS_BOOKING" :value="item">{{ item }}</option>
   </select>
 
   <button
     @click="onSubmit"
-    class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]">
+    class="my-4 cursor-pointer text-center rounded-md bg-gradient-to-br from-[#c97284] to-[#dc143c] px-3 py-1.5 font-dm text-lg font-medium text-white shadow-md shadow-[#dc143c] transition-transform duration-200 ease-in-out hover:scale-[1.03]"
+  >
     Save
   </button>
 </template>
@@ -94,7 +99,7 @@ const onSubmit = async () => {
     ...detailBooking.value,
     car: carId.value,
     price: price.value,
-    carOld: carsIdOld.value
+    carOld: carsIdOld.value,
   };
 
   try {
