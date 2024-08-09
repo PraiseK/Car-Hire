@@ -17,7 +17,7 @@ export const PATH = {
   DETAIL_BOOKING: PREFIX_PATH_ADMIN + "/booking/:id",
   CAR_ADMIN: PREFIX_PATH_ADMIN + "/car",
   USER_ADMIN: PREFIX_PATH_ADMIN + "/user",
-  TEST_PAGE: "/test",
+  TEST_PAGE: PREFIX_PATH_ADMIN + "/test",
 };
 
 const routes = [
@@ -57,10 +57,6 @@ const routes = [
         component: () =>
           import("../components/CongratulationPage/CongratulationPage.vue"),
       },
-      {
-        path: PATH.TEST_PAGE,
-        component: () => import("../components/TestPage/TestPage.vue"),
-      },
     ],
   },
   {
@@ -88,6 +84,10 @@ const routes = [
       {
         path: PATH.USER_ADMIN,
         component: () => import("../components/AdminUser/AdminUser.vue"),
+      },
+      {
+        path: PATH.TEST_PAGE,
+        component: () => import("../components/TestPage/TestPage.vue"),
       },
     ],
   },

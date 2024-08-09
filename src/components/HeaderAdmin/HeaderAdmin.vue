@@ -7,14 +7,16 @@
           (activeNav(item.router) ? 'bg-[#DC143C] text-white' : 'bg-white') +
           ' p-3 font-semibold capitalize rounded cursor-pointer'
         "
-        @click="navigateRouter(item.router)">
+        @click="navigateRouter(item.router)"
+      >
         {{ item.label }}
       </div>
     </div>
     <div>
       <div
         class="p-3 font-semibold capitalize bg-white rounded cursor-pointer"
-        @click="logout">
+        @click="logout"
+      >
         Logout
       </div>
     </div>
@@ -25,7 +27,7 @@
 import { useRoute, useRouter } from "vue-router";
 import { LOCAL_DATA } from "../../utils/constants";
 import { onMounted, ref } from "vue";
-import { KEY, removeCookie } from "../../utils/cookie";
+import { KEY, getCookie, removeCookie } from "../../utils/cookie";
 
 const listNav = ref([
   {
@@ -57,13 +59,17 @@ const logout = () => {
 };
 
 onMounted(() => {
-  const role = localStorage.getItem(LOCAL_DATA.ROLE);
+  const role = getCookie(KEY.ROLE);
   if (role && role === "ADMIN") {
     listNav.value = [
       ...listNav.value,
       {
         label: "User Management",
         router: "/admin/user",
+      },
+      {
+        label: "Test Report",
+        router: "/admin/test",
       },
     ];
   }
