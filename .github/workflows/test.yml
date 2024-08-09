@@ -25,4 +25,13 @@ jobs:
 
       - run: npm run build --if-present
       - run: npm run test-ct
-      - run: npx playwright show-report
+      
+      - name: Deploy Playwright Report to GitHub Pages
+        if: success()
+        run: |
+          mkdir -p ./report
+          cp -r playwright-report/* ./report/
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report
