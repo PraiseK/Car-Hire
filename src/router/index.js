@@ -17,6 +17,7 @@ export const PATH = {
   DETAIL_BOOKING: PREFIX_PATH_ADMIN + "/booking/:id",
   CAR_ADMIN: PREFIX_PATH_ADMIN + "/car",
   USER_ADMIN: PREFIX_PATH_ADMIN + "/user",
+  TEST_PAGE: "/test",
 };
 
 const routes = [
@@ -55,6 +56,10 @@ const routes = [
         path: PATH.BOOKING_SUCCESS,
         component: () =>
           import("../components/CongratulationPage/CongratulationPage.vue"),
+      },
+      {
+        path: PATH.TEST_PAGE,
+        component: () => import("../components/TestPage/TestPage.vue"),
       },
     ],
   },
